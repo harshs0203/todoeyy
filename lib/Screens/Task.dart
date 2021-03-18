@@ -1,45 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:todoeyy/Widgets/task_list.dart';
 import 'package:todoeyy/Screens/addTask.dart';
-class TasksScreen extends StatelessWidget {
+import 'package:todoeyy/modals/tasks.dart';
+
+class TasksScreen extends StatefulWidget {
+  @override
+  _TasksScreenState createState() => _TasksScreenState();
+}
+
+class _TasksScreenState extends State<TasksScreen> {
+  List<Task> task =
+  [
+    Task(name: 'Buy Milk'),
+    Task(name: 'Buy Oil'),
+    Task(name: 'Buy Banana'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blueGrey,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blueGrey,
-          child: Icon(Icons.add),
-          onPressed: (){
-          showModalBottomSheet(context: context, isScrollControlled: true,builder: (context) =>
-          SingleChildScrollView(
-           child: Container(
-             padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-             child: AddTask(),
-           ),
-          )
-          );
-          }
-      ),
+          backgroundColor: Colors.blueGrey,
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: (context) => SingleChildScrollView(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: AddTask(addTaskCallBack: (newTaskTile){
+                          setState(() {
+                            task.add(Task(name: newTaskTile));
+                          });
+                          Navigator.pop(context);
+                        }),
+                      ),
+                    ));
+          }),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(top: 60.0,left: 30.0,right: 30.0,bottom: 30.0),
+            padding: EdgeInsets.only(
+                top: 60.0, left: 30.0, right: 30.0, bottom: 30.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text('Todoey',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 50.0,
-                  fontWeight: FontWeight.w700,
+                Text(
+                  'Todoey',
+                  style: TextStyle(
+                    fontFamily: 'Fredoka',
+                    color: Colors.white,
+                    fontSize: 50.0,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-                ),
-                Text('12 tasks',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                ),
+                Text(
+                  '${task.length} tasks',
+                  style: TextStyle(
+                    fontFamily: 'Fredoka',
+                    color: Colors.white,
+                    fontSize: 20.0,
+                  ),
                 ),
               ],
             ),
@@ -55,7 +83,7 @@ class TasksScreen extends StatelessWidget {
                   topRight: Radius.circular(20.0),
                 ),
               ),
-              child: TasksList(),
+              child: TasksList(tasks: task),
             ),
           ),
         ],
@@ -63,6 +91,3 @@ class TasksScreen extends StatelessWidget {
     );
   }
 }
-
-
-
