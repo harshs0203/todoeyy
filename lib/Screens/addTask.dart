@@ -54,6 +54,7 @@ class AddTask extends StatelessWidget {
             ),
             Container(
               alignment: Alignment.centerRight,
+              // ignore: deprecated_member_use
               child: FlatButton(
                 shape: new RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(10.0),
